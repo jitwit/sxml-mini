@@ -42,42 +42,5 @@
 
 (define put-html
   (lambda (tree)
-    (let ((html (sxml->html tree)))
-      (let loop ((html html))
-	(unless (null? html)
-	  (cond ((pair? html)
-		 (loop (car html))
-		 (loop (cdr html)))
-		(else (display html))))))))
+    (send-reply (sxml->html tree))))
 
-(define eg
-  '((head
-     (meta (@ (charset "UTF-8")))
-     (title jitwit))
-    (body
-     (h1 (a (@ (href "http://jitwit.github.io"))
-	    "bio"))
-     (p "3 >= 2 bitches. "
-	"brouhaha"
-	(br)
-	"brou"
-	(b "ha")
-	"ha"))))
-
-(define latex
-  '(document
-    (quotation "citation line 1")
-    (br)
-    "another line"))
-
-(define alga
-  '(title alga!))
-
-(define (run)
-  (let ((file "test.html"))
-    (when (file-exists? file)
-      (delete-file file))
-    (with-output-to-file
-      file
-      (lambda ()
-	(put-html eg)))))

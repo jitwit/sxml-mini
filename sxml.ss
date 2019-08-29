@@ -1,5 +1,3 @@
-(import (srfi :13))
-
 ;; quotator split up string in chunks without given chars, and return list of strings
 ;; that list can then be printed to a port 
 (define make-char-quotator
