@@ -27,14 +27,16 @@
 	   (let* ((tag (name tree))
 		  (name (symbol->string tag))
 		  (content (content-raw tree)))
-	     `("<" ,name ,@(map attr->html (attr-list tree))
-	       ,@(if (null? content)
-		     (if (non-terminated-html-tag? tag)
-			 '(">")
-			 '("/>"))
-		     `(">"
-		       ,@(map sxml->html content)
-		       "</" ,name ">")))))
+	     (if (eq? tag '*raw-html*)
+		 content
+		 `("<" ,name ,@(map attr->html (attr-list tree))
+		   ,@(if (null? content)
+			 (if (non-terminated-html-tag? tag)
+			     '(">")
+			     '("/>"))
+			 `(">"
+			   ,@(map sxml->html content)
+			   "</" ,name ">"))))))
 	  ((string? tree) (string->goodHTML tree))
 	  ((symbol? tree) (string->goodHTML
 			   (symbol->string tree)))
