@@ -38,6 +38,7 @@
 	'())))
 
 (define name car)
+(define tag car)
 
 (define ncname
   (lambda (attr)

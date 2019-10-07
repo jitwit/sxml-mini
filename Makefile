@@ -1,21 +1,21 @@
-PACKAGE = chez-sxml-mini
-VERSION = 0.1
+package = chez-sxml-mini
+chez = scheme
+install = install -D
+prefix = ~/.chez.d
+libdir = $(prefix)/lib
 
-CHEZ = scheme
-INSTALL = install -D
-
-PREFIX = ~/.chez.d
-EXEC_PREFIX = ${PREFIX}
-LIBDIR = ${EXEC_PREFIX}/lib
-
-chezversion ::= $(shell echo '(call-with-values scheme-version-number (lambda (a b c) (format \#t "~d.~d" a b)))' | ${CHEZ} -q)
-schemedir = ${LIBDIR}/csv${chezversion}-site
+chezversion ::= $(shell echo '(call-with-values scheme-version-number (lambda (a b c) (format \#t "~d.~d" a b)))' | ${chez} -q)
+schemedir = ${libdir}/csv${chezversion}-site
 
 build:
-	echo "(compile-library \"chez/sxml-mini.sls\")" | ${CHEZ} -q
+	echo "(compile-library \"sxml-mini.sls\")" | ${chez} -q
 
 install:
-	find . -type f -regex ".*.so" -exec sh -c '${INSTALL} -t ${schemedir}/$$(dirname $$1) $$1' _ {} \;
+	find . -type f -regex ".*.so" -exec sh -c '${install} -t ${schemedir}/$$(dirname $$1) $$1' _ {} \;
+
+install-src:
+	find . -type f -regex ".*.scm" -exec sh -c '${install} -t ${schemedir}/$$(dirname $$1) $$1' _ {} \;
+	find . -type f -regex ".*.sls" -exec sh -c '${install} -t ${schemedir}/$$(dirname $$1) $$1' _ {} \;
 
 clean:
 	find . -name "*.so" -exec rm {} \;

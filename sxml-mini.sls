@@ -1,4 +1,4 @@
-(library (chez sxml-mini)
+(library (sxml-mini)
   (export send-reply
 	  pre-post-order
 	  put-html
